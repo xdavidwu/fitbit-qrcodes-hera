@@ -65,8 +65,8 @@ class QrCodesCompanion {
     const encoded = encoder.encode(new Byte(data, Charset.UTF_8));
     const { size } = encoded;
 
-    // scale up to avoid blurry txi images
-    const scalingFactor = Math.floor(275 / size);
+    // scale up to avoid interpolated txi image render
+    const scalingFactor = Math.floor(282 / size);
 
     const bitmapSize = size * scalingFactor;
     const bitmap = [];

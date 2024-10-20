@@ -104,8 +104,8 @@ function applySettings() {
 
         imgEl.width = header[6];
         imgEl.height = header[7];
-        imgEl.x = Math.floor((275 - header[6]) / 2);
-        imgEl.y = Math.floor((275 - header[7]) / 2);
+        imgEl.x = Math.floor((282 - header[6]) / 2);
+        imgEl.y = Math.floor((282 - header[7]) / 2);
       }
     }
 
