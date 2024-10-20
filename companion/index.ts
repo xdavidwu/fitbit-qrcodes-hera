@@ -5,7 +5,6 @@ import { encode, TXIOutputFormat } from "@fitbit/image-codec-txi";
 import { Image } from "image";
 import { qrdecode } from "./qrdecode";
 
-const QR_CODE_MIN_SIZE = 200; // size used on device
 const MAX_QR_CODE_COUNT = 10;
 const QR_CODES_ITERATOR = Array.from(
   { length: MAX_QR_CODE_COUNT },
@@ -67,7 +66,7 @@ class QrCodesCompanion {
     const { size } = encoded;
 
     // scale up to avoid blurry txi images
-    const scalingFactor = Math.ceil(QR_CODE_MIN_SIZE / size);
+    const scalingFactor = Math.floor(275 / size);
 
     const bitmapSize = size * scalingFactor;
     const bitmap = [];

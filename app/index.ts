@@ -1,6 +1,6 @@
 import { me } from "appbit";
 import { display } from "display";
-import { readFileSync, renameSync, unlinkSync, writeFileSync } from "fs";
+import { readFileSync, renameSync, unlinkSync, writeFileSync, openSync, readSync, closeSync } from "fs";
 import { inbox } from "file-transfer";
 import document from "document";
 
@@ -96,6 +96,17 @@ function applySettings() {
     if (imgEl) {
       const filename = mySettings[`file${i}`];
       imgEl.href = filename || "";
+      if (filename) {
+        const fd = openSync(filename, "r");
+        const header = new Uint32Array(10);
+        readSync(fd, header, 0, 40, 0);
+        closeSync(fd);
+
+        imgEl.width = header[6];
+        imgEl.height = header[7];
+        imgEl.x = Math.floor((275 - header[6]) / 2);
+        imgEl.y = Math.floor((275 - header[7]) / 2);
+      }
     }
 
     const textEl = cardEl.getElementById("qr-code-label");
