@@ -7,7 +7,7 @@ import document from "document";
 const SETTINGS_FILE = "settings.cbor";
 const SETTINGS_TYPE = "cbor";
 
-const DisplayBrightnessValue = [undefined, "dim", "normal", "max"];
+const DisplayBrightnessValue = [undefined, "dim", "normal", "max"] as const;
 let brightnessIndex = 0;
 
 display.autoOff = false;
@@ -84,7 +84,7 @@ function applySettings() {
       hasQrCode = true;
     }
 
-    const cardEl = containerEl.getElementById(`qr-code-${i}`);
+    const cardEl = containerEl.getElementById(`qr-code-${i}`) as GraphicsElement;
     if (!cardEl) {
       console.error("No card element found for " + i);
       continue;
@@ -92,7 +92,7 @@ function applySettings() {
 
     cardEl.style.display = enabled ? "inline" : "none";
 
-    const imgEl = cardEl.getElementById("qr-code-image");
+    const imgEl = cardEl.getElementById("qr-code-image") as ImageElement;
     if (imgEl) {
       const filename = mySettings[`file${i}`];
       imgEl.href = filename || "";
@@ -107,6 +107,6 @@ function applySettings() {
     }
   }
 
-  const messageEl = document.getElementById("message");
+  const messageEl = document.getElementById("message") as GraphicsElement;
   messageEl.style.display = hasQrCode ? "none" : "inline";
 }

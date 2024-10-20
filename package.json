@@ -9,7 +9,8 @@
   },
   "devDependencies": {
     "@fitbit/sdk": "^7.2.0-pre.0",
-    "@fitbit/sdk-cli": "^1.8.0-pre.11"
+    "@fitbit/sdk-cli": "^1.8.0-pre.11",
+    "fitbit-sdk-types": "^8.0.3"
   },
   "author": "sibbl",
   "license": "MIT",

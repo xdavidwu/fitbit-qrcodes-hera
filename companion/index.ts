@@ -4,7 +4,7 @@ import qrcode from "qrcode-generator";
 import { encode, TXIOutputFormat } from "@fitbit/image-codec-txi";
 import { Image } from "image";
 
-console.log("companion load");
+type ErrorCorrectionLevel = Parameters<typeof qrcode>[1];
 
 const QR_CODE_MIN_SIZE = 200; // size used on device
 const MAX_QR_CODE_COUNT = 10;
@@ -14,6 +14,8 @@ const QR_CODES_ITERATOR = Array.from(
 );
 
 class QrCodesCompanion {
+  settings: any; // TODO
+
   constructor() {
     settingsStorage.addEventListener(
       "change",
@@ -55,7 +57,7 @@ class QrCodesCompanion {
     await this.sendFileAsync("metadata", buffer);
   }
 
-  async updateQrCodeAsync(i, enabled, data, errorCorrectionLevel = "L") {
+  async updateQrCodeAsync(i, enabled, data, errorCorrectionLevel: ErrorCorrectionLevel = "L") {
     if (!data || !enabled) return;
 
     const qr = qrcode(0, errorCorrectionLevel);

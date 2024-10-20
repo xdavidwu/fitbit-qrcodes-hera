@@ -1,0 +1,11 @@
+{
+  "extends": "../node_modules/@fitbit/sdk/sdk-tsconfig.json",
+  "compilerOptions": {
+    "target": "es2019",
+    "lib": ["es2019"]
+  },
+  "include": [
+    "**/*.ts",
+    "../node_modules/fitbit-sdk-types/types/companion"
+  ]
+}
