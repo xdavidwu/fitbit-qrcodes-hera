@@ -5,8 +5,5 @@
   height: 275;
 }
 #qr-code-label {
-  y: 100%+12;
-}
-#pagination-dots {
-  y: 1;
+  y: 100%+16;
 }

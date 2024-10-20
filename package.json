@@ -8,23 +8,20 @@
     "qrcode-generator": "^1.4.4"
   },
   "devDependencies": {
-    "@fitbit/sdk": "^4.3.2",
-    "@fitbit/sdk-cli": "*"
+    "@fitbit/sdk": "^7.2.0-pre.0",
+    "@fitbit/sdk-cli": "^1.8.0-pre.11"
   },
   "author": "sibbl",
   "license": "MIT",
   "fitbit": {
-    "appUUID": "489b1207-0bac-432a-b919-6329fa8ccf12",
+    "appUUID": "2bcd9632-aafe-4e11-b0a7-d1529788aa32",
     "appType": "app",
     "appDisplayName": "QR Codes",
     "iconFile": "resources/icon.png",
     "wipeColor": "#0074d9",
     "requestedPermissions": [],
     "buildTargets": [
-      "higgs",
-      "meson",
-      "gemini",
-      "mira"
+      "hera"
     ],
     "i18n": {}
   },
