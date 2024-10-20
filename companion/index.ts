@@ -1,10 +1,8 @@
 import { outbox } from "file-transfer";
 import { settingsStorage } from "settings";
-import qrcode from "qrcode-generator";
+import { Byte, Encoder, type EncoderOptions } from "@nuintun/qrcode";
 import { encode, TXIOutputFormat } from "@fitbit/image-codec-txi";
 import { Image } from "image";
-
-type ErrorCorrectionLevel = Parameters<typeof qrcode>[1];
 
 const QR_CODE_MIN_SIZE = 200; // size used on device
 const MAX_QR_CODE_COUNT = 10;
@@ -57,13 +55,12 @@ class QrCodesCompanion {
     await this.sendFileAsync("metadata", buffer);
   }
 
-  async updateQrCodeAsync(i, enabled, data, errorCorrectionLevel: ErrorCorrectionLevel = "L") {
+  async updateQrCodeAsync(i, enabled, data, errorCorrectionLevel: EncoderOptions['level'] = "L") {
     if (!data || !enabled) return;
 
-    const qr = qrcode(0, errorCorrectionLevel);
-    qr.addData(data);
-    qr.make();
-    const size = qr.getModuleCount();
+    const encoder = new Encoder({ level: errorCorrectionLevel });
+    const encoded = encoder.encode(new Byte(data));
+    const { size } = encoded;
 
     // scale up to avoid blurry txi images
     const scalingFactor = Math.ceil(QR_CODE_MIN_SIZE / size);
@@ -73,7 +70,7 @@ class QrCodesCompanion {
     for (let x = 0; x < size; x++) {
       for (let i = 0; i < scalingFactor; i++) {
         for (let y = 0; y < size; y++) {
-          const isDark = qr.isDark(x, y);
+          const isDark = encoded.get(x, y);
           for (let j = 0; j < scalingFactor; j++) {
             bitmap.push(isDark ? 255 : 0, 0, 0, 0);
           }
