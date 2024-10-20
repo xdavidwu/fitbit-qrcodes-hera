@@ -3,6 +3,7 @@ import { settingsStorage } from "settings";
 import { Byte, Charset, Encoder, type EncoderOptions } from "@nuintun/qrcode";
 import { encode, TXIOutputFormat } from "@fitbit/image-codec-txi";
 import { Image } from "image";
+import { qrdecode } from "./qrdecode";
 
 const QR_CODE_MIN_SIZE = 200; // size used on device
 const MAX_QR_CODE_COUNT = 10;
@@ -122,12 +123,14 @@ class QrCodesCompanion {
         this.settings[`content${i}`] = null;
 
         const imageData = JSON.parse(evt.newValue);
-        const imageUri = imageData.imageUri;
-        const image = await Image.from(imageUri);
-        const txiImage = await image.export("image/vnd.fitbit.txi", {
-          background: "#FFFFFF",
-        });
-        await this.sendFileAsync(`file${i}`, txiImage);
+        // TODO ui for failure
+        const res = await qrdecode(imageData.imageUri);
+        this.updateQrCodeAsync(
+          i,
+          this.settings[`enabled${i}`],
+          res,
+          this.settings[`errorCorrectionLevel${i}`]
+        );
       } else if (evt.key === `content${i}` && evt.newValue) {
         settingsStorage.setItem(`image${i}`, "");
         this.settings[`image${i}`] = null;
