@@ -1,6 +1,6 @@
 import { outbox } from "file-transfer";
 import { settingsStorage } from "settings";
-import { Byte, Encoder, type EncoderOptions } from "@nuintun/qrcode";
+import { Byte, Charset, Encoder, type EncoderOptions } from "@nuintun/qrcode";
 import { encode, TXIOutputFormat } from "@fitbit/image-codec-txi";
 import { Image } from "image";
 
@@ -59,7 +59,10 @@ class QrCodesCompanion {
     if (!data || !enabled) return;
 
     const encoder = new Encoder({ level: errorCorrectionLevel });
-    const encoded = encoder.encode(new Byte(data));
+    // XXX: api design mistake?
+    // ascii/8859-1 means "treat input as string of codepoints, use it as-is"
+    // but utf-8 actually passes to TextEncoder, which means "treat as js string (of utf-16 codepoints), encode to utf-8"
+    const encoded = encoder.encode(new Byte(data, Charset.UTF_8));
     const { size } = encoded;
 
     // scale up to avoid blurry txi images
