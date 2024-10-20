@@ -1,8 +1,8 @@
-<svg viewport-fill="white">
+<svg viewport-fill="black">
   <defs>
     <symbol id='qr-code-card' href='#scrollview-item'>
       <section id="qr-code-area">
-        <image width="100%" height="100%" id="qr-code-image" />
+        <image width="100%" height="100%" id="qr-code-image" fill="fb-aqua" />
         <text id="qr-code-label" class="p3" text-length="50" />
       </section>
 
