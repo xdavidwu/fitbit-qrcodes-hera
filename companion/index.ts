@@ -119,29 +119,19 @@ class QrCodesCompanion {
       console.log("Settings of QR code " + i + " have been changed.");
 
       if (evt.key === `image${i}` && evt.newValue) {
-        settingsStorage.setItem(`content${i}`, "");
-        this.settings[`content${i}`] = null;
-
         const imageData = JSON.parse(evt.newValue);
-        // TODO ui for failure
-        const res = await qrdecode(imageData.imageUri);
-        this.updateQrCodeAsync(
-          i,
-          this.settings[`enabled${i}`],
-          res,
-          this.settings[`errorCorrectionLevel${i}`]
-        );
-      } else if (evt.key === `content${i}` && evt.newValue) {
+        const res = await qrdecode(imageData.imageUri).catch((e) => 'Parse image failed');
         settingsStorage.setItem(`image${i}`, "");
-        this.settings[`image${i}`] = null;
-
-        this.updateQrCodeAsync(
-          i,
-          this.settings[`enabled${i}`],
-          this.settings[`content${i}`],
-          this.settings[`errorCorrectionLevel${i}`]
-        );
+        settingsStorage.setItem(`content${i}`, res);
+        this.settings[`content${i}`] = res;
       }
+
+      this.updateQrCodeAsync(
+        i,
+        this.settings[`enabled${i}`],
+        this.settings[`content${i}`],
+        this.settings[`errorCorrectionLevel${i}`]
+      );
     });
 
     this.updateMetaDataAsync();
